@@ -45,6 +45,10 @@ export const userDetailsSlice = createSlice({
     },
     onSuccess: (state, action: PayloadAction<UserDetails>) => {
         state.loading = false;
+        state.error = {
+          errorCode: 0,
+          errorMessage: ''
+        }
         state.data = {...state.data, ...action.payload}
     },
   },

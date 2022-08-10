@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Stack, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { grey, red } from "@mui/material/colors";
+import COLORS from '../utils/colors';
 
 interface SignupHeaderProps {
     pageName: string;
@@ -13,11 +13,11 @@ const SignupHeader = (props: SignupHeaderProps) => {
 
     return (
         <Stack direction="row" spacing={1} justifyContent="space-between">
-            <Typography variant="h5" sx={{margin: '32px 12px 4px 24px', color: grey[700]}}>{pageName}</Typography>
-            <Box sx={{padding: '12px', backgroundColor: red[500], width: 300, borderBottomLeftRadius: 16, height: 'fit-content'}}>
+            <Typography variant="h5" sx={{margin: '32px 12px 4px 24px', color: COLORS.secondary.darkest}}>{pageName}</Typography>
+            <Box sx={{padding: '12px', backgroundColor: COLORS.primary.dark, width: 300, borderBottomLeftRadius: 16, height: 'fit-content'}}>
                 <Stack direction="row" justifyContent="space-between">
-                    <Typography variant="body2" color="#ffffff" sx={{textTransform: 'uppercase'}}>{userName}</Typography>
-                    <MenuIcon sx={{color: '#ffffff'}} fontSize="small" />
+                    <Typography variant="body2" color={COLORS.white} sx={{textTransform: 'uppercase'}}>{userName}</Typography>
+                    <MenuIcon sx={{color: COLORS.white}} fontSize="small" />
                 </Stack>
             </Box>
         </Stack>
