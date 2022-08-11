@@ -1,7 +1,6 @@
-import { Backdrop, Box, CircularProgress, Stack } from "@mui/material";
+import { Backdrop, CircularProgress, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import COLORS from "../utils/colors";
 import SignupHeader from "../components/SignupHeader";
 import SignupTabs from "../components/SignupTabs";
 import { TABS } from "../constants";
@@ -9,6 +8,7 @@ import { getControls } from "../reducers/controls/controlsSlice";
 import { getUserDetails, onSuccess } from "../reducers/userDetails/userDetailsSlice";
 import Tab from "../types/tab";
 import SignupContainer from "../components/SignupContainer";
+import { addUser, deleteUser, getAllUsers, getUser, updateUser } from "../services";
 
 const Signup = () => {
     const userDetailsState = useAppSelector(getUserDetails);
@@ -23,6 +23,37 @@ const Signup = () => {
         if (stringifiedUserDetails) {
             dispatch(onSuccess(JSON.parse(stringifiedUserDetails)));
         }
+        const getAlllUsers = async () => {
+            // const response = await getAllUsers();
+            // const response = await getUser("2");
+            // const response = await addUser({
+            //     name: 'Rishabh',
+            //     email: 'rishabh@gmail.com',
+            //     mobileNumber: '8299748966',
+            //     addressLine1: '452',
+            //     addressLine2: 'B block',
+            //     addressLine3: 'AECS',
+            //     workBuildingName: '',
+            //     workCity: '',
+            //     workLandlineNumber: '',
+            //     workAddressLine1: '',
+            //     workAddressLine2: '',
+            //     workPOBoxNumber: '',
+            //     image: '',
+            //     signature: '',
+            // });
+            // const response = await updateUser('3', {
+            //     workBuildingName: 'WeWork',
+            //     workCity: 'Bangalore',
+            //     workLandlineNumber: '32935382726',
+            //     workAddressLine1: 'ETV',
+            //     workAddressLine2: 'Kadubeesanahalli',
+            //     workPOBoxNumber: '560056',
+            // });
+            // const response = await deleteUser('3');
+            // console.log(response);
+        };
+        getAlllUsers();
     }, [dispatch])
 
     return (

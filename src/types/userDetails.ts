@@ -1,7 +1,7 @@
 interface UserDetails {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
+    id?: string;
+    createdAt?: string;
+    updatedAt?: string;
     name: string;
     email: string;
     mobileNumber: string;
