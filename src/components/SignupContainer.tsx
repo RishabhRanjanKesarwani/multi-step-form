@@ -3,7 +3,7 @@ import React from 'react';
 import COLORS from '../utils/colors';
 
 interface SignupContainerProps {
-    children: JSX.Element
+    children: JSX.Element;
 }
 
 const SignupContainer = (props: SignupContainerProps) => {

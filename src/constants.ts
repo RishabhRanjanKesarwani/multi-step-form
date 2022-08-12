@@ -1,9 +1,9 @@
 import Tab from "./types/tab";
 
-export const TAB_IDS = {
-    step1: 'step1',
-    step2: 'step2',
-    step3: 'step3',
+export enum TAB_IDS {
+    step1 = 'step1',
+    step2 = 'step2',
+    step3 = 'step3',
 };
 
 export const TABS: Tab[] = [
@@ -58,4 +58,8 @@ export const API_ERRORS = {
         errorCode: 604,
         errorMessage: 'Some error occurred in deleting the data.',
     },
+};
+
+export const LOCALSTORAGE_KEYS = {
+    userDetails: 'userDetails',
 };
