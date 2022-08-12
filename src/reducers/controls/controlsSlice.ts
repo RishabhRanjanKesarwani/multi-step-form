@@ -5,7 +5,8 @@ import Controls from '../../types/controls';
 const initialState: Controls = {
   isStep1Complete: false,
   isStep2Complete: false,
-  isStep3Complete: false
+  isStep3Complete: false,
+  isActiveStepFieldsFrozen: false,
 };
 
 export const controlsSlice = createSlice({
@@ -22,13 +23,16 @@ export const controlsSlice = createSlice({
     onStep3StateChange: (state, action: PayloadAction<boolean>) => {
       state.isStep3Complete = action.payload;
     },
+    onActiveStepFrozenStatusChange: (state, action: PayloadAction<boolean>) => {
+      state.isActiveStepFieldsFrozen = action.payload;
+    },
     onControlsReset: (state) => {
       state = initialState;
     }
   },
 });
 
-export const { onStep1StateChange, onStep2StateChange, onStep3StateChange, onControlsReset } = controlsSlice.actions;
+export const { onStep1StateChange, onStep2StateChange, onStep3StateChange, onActiveStepFrozenStatusChange, onControlsReset } = controlsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

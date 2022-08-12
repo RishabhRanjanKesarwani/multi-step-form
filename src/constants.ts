@@ -63,3 +63,37 @@ export const API_ERRORS = {
 export const LOCALSTORAGE_KEYS = {
     userDetails: 'userDetails',
 };
+
+export const FORM_LABELS: { [key: string]: string } = {
+    name: 'Name',
+    email: 'Email',
+    mobileNumber: 'Mobile Number',
+    addressLine1: 'Address Line 1',
+    addressLine2: 'Address Line 2',
+    addressLine3: 'Address Line 3',
+    workBuildingName: 'Building Name',
+    workCity: 'City',
+    workLandlineNumber: 'Landline Number',
+    workAddressLine1: 'Address Line 1',
+    workAddressLine2: 'Address Line 2',
+    workPOBoxNumber: 'PO Box Number',
+    image: 'Image',
+    signature: 'Signature',
+}
+
+export const FORM_INITIAL_STATE = {
+    name: '',
+    email: '',
+    mobileNumber: '',
+    addressLine1: '',
+    addressLine2: '',
+    addressLine3: '',
+    workBuildingName: '',
+    workCity: '',
+    workLandlineNumber: '',
+    workAddressLine1: '',
+    workAddressLine2: '',
+    workPOBoxNumber: '',
+    image: '',
+    signature: '',
+};

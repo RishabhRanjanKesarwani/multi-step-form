@@ -2,12 +2,8 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { useAppSelector } from '../app/hooks';
 import { TABS, TAB_IDS } from '../constants';
-import { getConfirmationPage } from '../reducers/form/confirmationPageSlice';
-import { getOfficeDetails } from '../reducers/form/officeDetailsSlice';
-import { getPersonalInfo } from '../reducers/form/personalInfoSlice';
-import { getUserDetails } from '../reducers/userDetails/userDetailsSlice';
+import { getControls } from '../reducers/controls/controlsSlice';
 import Tab from '../types/tab';
-import UserDetails from '../types/userDetails';
 import COLORS from '../utils/colors';
 
 const tabsAndHyphens: Tab[] = [];
@@ -41,10 +37,7 @@ interface SignupTabsProps {
 }
 
 const SignupTabs = (props: SignupTabsProps) => {
-    const { data } = useAppSelector(getUserDetails);
-    const personalInfo = useAppSelector(getPersonalInfo);
-    const officeDetails = useAppSelector(getOfficeDetails);
-    const confirmationPage = useAppSelector(getConfirmationPage);
+    const { isActiveStepFieldsFrozen } = useAppSelector(getControls);
 
     const { isActive, isStep1Complete, isStep2Complete, isStep3Complete, onTabClick } = props;
 
@@ -52,29 +45,9 @@ const SignupTabs = (props: SignupTabsProps) => {
         return id === TAB_IDS.step1 ? isStep1Complete : id === TAB_IDS.step2 ? isStep2Complete : isStep3Complete;
     }
 
-    const hasActiveCompleteFormChanged = (id: string) => {
-        let formData: Partial<UserDetails> = {};
-        switch (id) {
-            case TAB_IDS.step1:
-                formData = personalInfo;
-                break;
-            case TAB_IDS.step2:
-                formData = officeDetails;
-                break;
-            case TAB_IDS.step3:
-                formData = confirmationPage;
-                break;
-            default:
-                formData = {};
-                break;
-        }
-        // @ts-ignore: Unnecessary type error
-        return Object.keys(formData).some(key => formData[key] !== data[key]);
-    }
-
     const onClick = (tab: Tab) => {
         if (tab.id !== isActive.id && (isStatusComplete(tab.id) || (!isStatusComplete(tab.id) && isStatusComplete(getPreviousTabID(tab.id))))) {
-            if (isStatusComplete(isActive.id) && hasActiveCompleteFormChanged(isActive.id)) {
+            if (isStatusComplete(isActive.id) && !isActiveStepFieldsFrozen) {
                 window.alert("You have unsaved changes. Please click 'Next' button to save them and continue.")
             } else {
                 onTabClick(tab);

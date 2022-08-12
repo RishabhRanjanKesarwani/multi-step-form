@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { FORM_INITIAL_STATE } from '../../constants';
 import Error from '../../types/error';
 import UserDetailsState from '../../types/states/userDetailsState';
 import UserDetails from '../../types/userDetails';
@@ -9,20 +10,7 @@ const initialState: UserDetailsState = {
     id: '',
     createdAt: '',
     updatedAt: '',
-    name: '',
-    email: '',
-    mobileNumber: '',
-    addressLine1: '',
-    addressLine2: '',
-    addressLine3: '',
-    workBuildingName: '',
-    workCity: '',
-    workLandlineNumber: '',
-    workAddressLine1: '',
-    workAddressLine2: '',
-    workPOBoxNumber: '',
-    image: '',
-    signature: '',
+    ...FORM_INITIAL_STATE
   },
   loading: false,
   error: {

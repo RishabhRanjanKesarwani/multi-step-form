@@ -29,7 +29,7 @@ export const addUser = async (data: UserDetails) => {
             headers: API_PARAMS.headers,
             body: JSON.stringify(data),
         })
-        return response.json;
+        return response.json();
     } catch (error) {
         return API_ERRORS.postError;
     }
@@ -43,7 +43,7 @@ export const updateUser = async (userId: string, data: Partial<UserDetails>) => 
             headers: API_PARAMS.headers,
             body: JSON.stringify(data),
         })
-        return response.json;
+        return response.json();
     } catch (error) {
         return API_ERRORS.putError;
     }
@@ -56,7 +56,7 @@ export const deleteUser = async (userId: string) => {
             method: API_PARAMS.methods.delete,
             headers: API_PARAMS.headers,
         })
-        return response.json;
+        return response.json();
     } catch (error) {
         return API_ERRORS.putError;
     }

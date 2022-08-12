@@ -1,4 +1,4 @@
-import { green, grey, red } from "@mui/material/colors";
+import { blue, green, grey, red } from "@mui/material/colors";
 
 const COLORS = {
     primary: {
@@ -15,6 +15,10 @@ const COLORS = {
     success: {
         light: green[100],
         dark: green[300],
+    },
+    action: {
+        light: 'rgba(25, 118, 210, 0.04)',
+        dark: blue[700],
     },
     white: '#ffffff',
     black: '#000000',
