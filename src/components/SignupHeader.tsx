@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Stack, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Box, Link, Stack, Typography } from "@mui/material";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import COLORS from '../utils/colors';
 
 interface SignupHeaderProps {
@@ -17,7 +17,9 @@ const SignupHeader = (props: SignupHeaderProps) => {
             <Box sx={{padding: '12px', backgroundColor: COLORS.primary.dark, width: 300, borderBottomLeftRadius: 16, height: 'fit-content'}}>
                 <Stack direction="row" justifyContent="space-between">
                     <Typography variant="body2" color={COLORS.white} sx={{textTransform: 'uppercase'}}>{userName}</Typography>
-                    <MenuIcon sx={{color: COLORS.white}} fontSize="small" />
+                    <Link href="https://github.com/RishabhRanjanKesarwani/multi-step-form/blob/master/README.md" target="_blank">
+                        <HelpOutlineIcon sx={{color: COLORS.white}} fontSize="small" />
+                    </Link>
                 </Stack>
             </Box>
         </Stack>
