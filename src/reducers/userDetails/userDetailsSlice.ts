@@ -51,10 +51,13 @@ export const userDetailsSlice = createSlice({
         }
         state.data = {...state.data, ...action.payload}
     },
+    onUserDetailsReset: (state) => {
+      state = initialState;
+    }
   },
 });
 
-export const { onError, onLoad, onSuccess } = userDetailsSlice.actions;
+export const { onError, onLoad, onSuccess, onUserDetailsReset } = userDetailsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

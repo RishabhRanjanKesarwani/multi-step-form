@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import SignupHeader from "../components/SignupHeader";
 import SignupTabs from "../components/SignupTabs";
 import { LOCALSTORAGE_KEYS, TABS, TAB_IDS } from "../constants";
-import { getControls, onStep1StateChange, onStep2StateChange, onStep3StateChange } from "../reducers/controls/controlsSlice";
+import { getControls, onControlsReset, onStep1StateChange, onStep2StateChange, onStep3StateChange } from "../reducers/controls/controlsSlice";
 import { getUserDetails, onSuccess } from "../reducers/userDetails/userDetailsSlice";
 import Tab from "../types/tab";
 import SignupContainer from "../components/SignupContainer";
@@ -25,6 +25,7 @@ const Signup = () => {
 
     useEffect(() => {
         const stringifiedUserDetails = localStorage.getItem(LOCALSTORAGE_KEYS.userDetails);
+        dispatch(onControlsReset());
         if (stringifiedUserDetails) {
             dispatch(onSuccess(JSON.parse(stringifiedUserDetails)));
         }

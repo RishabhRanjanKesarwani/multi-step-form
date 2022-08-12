@@ -1,4 +1,4 @@
-import { grey, red } from "@mui/material/colors";
+import { green, grey, red } from "@mui/material/colors";
 
 const COLORS = {
     primary: {
@@ -11,6 +11,10 @@ const COLORS = {
         medium: grey[300],
         dark: grey[600],
         darkest: grey[700]
+    },
+    success: {
+        light: green[100],
+        dark: green[300],
     },
     white: '#ffffff',
     black: '#000000',

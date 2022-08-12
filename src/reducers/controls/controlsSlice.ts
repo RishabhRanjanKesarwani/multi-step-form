@@ -22,10 +22,13 @@ export const controlsSlice = createSlice({
     onStep3StateChange: (state, action: PayloadAction<boolean>) => {
       state.isStep3Complete = action.payload;
     },
+    onControlsReset: (state) => {
+      state = initialState;
+    }
   },
 });
 
-export const { onStep1StateChange, onStep2StateChange, onStep3StateChange } = controlsSlice.actions;
+export const { onStep1StateChange, onStep2StateChange, onStep3StateChange, onControlsReset } = controlsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
