@@ -35,7 +35,7 @@ export const addUser = async (data: UserDetails) => {
     }
 };
 
-export const updateUser = async (userId: string, data: Partial<UserDetails>) => {
+export const updateUser = async (userId = '', data: Partial<UserDetails>) => {
     const url = `${API_PARAMS.path}${API_PARAMS.endpoints.user.replace('{userId}', userId)}`;
     try {
         const response = await fetch(url, {
@@ -49,7 +49,7 @@ export const updateUser = async (userId: string, data: Partial<UserDetails>) => 
     }
 };
 
-export const deleteUser = async (userId: string) => {
+export const deleteUser = async (userId = '') => {
     const url = `${API_PARAMS.path}${API_PARAMS.endpoints.user.replace('{userId}', userId)}`;
     try {
         const response = await fetch(url, {

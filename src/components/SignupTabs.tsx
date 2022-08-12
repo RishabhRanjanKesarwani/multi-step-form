@@ -30,24 +30,25 @@ const getPreviousTabID = (id: string): TAB_IDS => {
 
 interface SignupTabsProps {
     isActive: Tab;
-    isStep1Complete: boolean;
-    isStep2Complete: boolean;
-    isStep3Complete: boolean;
     onTabClick: (tab: Tab) => void;
 }
 
 const SignupTabs = (props: SignupTabsProps) => {
-    const { isActiveStepFieldsFrozen } = useAppSelector(getControls);
+    const { isStep1Complete, isStep2Complete, isStep3Complete, isStep1Frozen, isStep2Frozen, isStep3Frozen } = useAppSelector(getControls);
 
-    const { isActive, isStep1Complete, isStep2Complete, isStep3Complete, onTabClick } = props;
+    const { isActive, onTabClick } = props;
 
     const isStatusComplete = (id: string): boolean => {
         return id === TAB_IDS.step1 ? isStep1Complete : id === TAB_IDS.step2 ? isStep2Complete : isStep3Complete;
     }
 
+    const isStepFrozen = (id: string): boolean => {
+        return id === TAB_IDS.step1 ? isStep1Frozen : id === TAB_IDS.step2 ? isStep2Frozen : isStep3Frozen;
+    }
+
     const onClick = (tab: Tab) => {
         if (tab.id !== isActive.id && (isStatusComplete(tab.id) || (!isStatusComplete(tab.id) && isStatusComplete(getPreviousTabID(tab.id))))) {
-            if (isStatusComplete(isActive.id) && !isActiveStepFieldsFrozen) {
+            if (isStatusComplete(isActive.id) && !isStepFrozen(isActive.id)) {
                 window.alert("You have unsaved changes. Please click 'Next' button to save them and continue.")
             } else {
                 onTabClick(tab);
@@ -61,7 +62,7 @@ const SignupTabs = (props: SignupTabsProps) => {
                 tab.id.includes('step') ? (
                     <Box key={tab.id} sx={{ padding: '3px', border: tab.id === isActive.id ? `1px solid ${COLORS.primary.dark}` : 'none', borderRadius: '50%', cursor: 'pointer' }} onClick={() => onClick(tab)}>
                         <Box sx={{ width: '30px', height: '30px', border: `1px solid ${isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.primary.medium}`, background: isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.secondary.medium, borderRadius: '50%', '&:hover': { background: isStatusComplete(tab.id) ? COLORS.primary.medium : COLORS.secondary.light } }}>
-                            <Typography variant="body2" color={isStatusComplete(tab.id) ? 'text.primary' : COLORS.secondary.dark} align="center" sx={{ marginTop: '5px' }}>{tab.label}</Typography>
+                            <Typography variant="body2" color={isStatusComplete(tab.id) ? COLORS.white : COLORS.secondary.dark} align="center" sx={{ marginTop: '5px' }}>{tab.label}</Typography>
                         </Box>
                     </Box>
                 ) : (

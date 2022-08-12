@@ -62,6 +62,7 @@ export const API_ERRORS = {
 
 export const LOCALSTORAGE_KEYS = {
     userDetails: 'userDetails',
+    controls: 'controls',
 };
 
 export const FORM_LABELS: { [key: string]: string } = {

@@ -6,7 +6,9 @@ const initialState: Controls = {
   isStep1Complete: false,
   isStep2Complete: false,
   isStep3Complete: false,
-  isActiveStepFieldsFrozen: false,
+  isStep1Frozen: false,
+  isStep2Frozen: false,
+  isStep3Frozen: false,
 };
 
 export const controlsSlice = createSlice({
@@ -23,8 +25,22 @@ export const controlsSlice = createSlice({
     onStep3StateChange: (state, action: PayloadAction<boolean>) => {
       state.isStep3Complete = action.payload;
     },
-    onActiveStepFrozenStatusChange: (state, action: PayloadAction<boolean>) => {
-      state.isActiveStepFieldsFrozen = action.payload;
+    onStep1FrozenChange: (state, action: PayloadAction<boolean>) => {
+      state.isStep1Frozen = action.payload;
+    },
+    onStep2FrozenChange: (state, action: PayloadAction<boolean>) => {
+      state.isStep2Frozen = action.payload;
+    },
+    onStep3FrozenChange: (state, action: PayloadAction<boolean>) => {
+      state.isStep3Frozen = action.payload;
+    },
+    onAllControlsUpdate: (state, action: PayloadAction<Controls>) => {
+      state.isStep1Complete = action.payload.isStep1Complete;
+      state.isStep1Frozen = action.payload.isStep1Frozen;
+      state.isStep2Complete = action.payload.isStep2Complete;
+      state.isStep2Frozen = action.payload.isStep2Frozen;
+      state.isStep3Complete = action.payload.isStep3Complete;
+      state.isStep3Frozen = action.payload.isStep3Frozen;
     },
     onControlsReset: (state) => {
       state = initialState;
@@ -32,7 +48,7 @@ export const controlsSlice = createSlice({
   },
 });
 
-export const { onStep1StateChange, onStep2StateChange, onStep3StateChange, onActiveStepFrozenStatusChange, onControlsReset } = controlsSlice.actions;
+export const { onStep1StateChange, onStep2StateChange, onStep3StateChange, onStep1FrozenChange, onStep2FrozenChange, onStep3FrozenChange, onAllControlsUpdate, onControlsReset } = controlsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
