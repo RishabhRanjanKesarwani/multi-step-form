@@ -4,10 +4,11 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getControls, onControlsReset } from '../reducers/controls/controlsSlice';
-import { onUserDetailsReset } from '../reducers/userDetails/userDetailsSlice';
+import { getUserDetails, onUserDetailsReset } from '../reducers/userDetails/userDetailsSlice';
 import COLORS from '../utils/colors';
 
 const Success = () => {
+    const { data } = useAppSelector(getUserDetails);
     const controls = useAppSelector(getControls);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ const Success = () => {
     const onClickOk = () => {
         dispatch(onUserDetailsReset());
         dispatch(onControlsReset());
-        navigate('/');
+        navigate('/signup');
     }
 
     return (
@@ -33,7 +34,7 @@ const Success = () => {
                         <Done sx={{fontSize: 100, color: COLORS.success.dark}} />
                     </Box>
                     <Typography variant="h3">Success</Typography>
-                    <Typography variant="h5">Your application has been submitted.</Typography>
+                    <Typography variant="h5">Your application has been submitted. Use application ID <span style={{color: COLORS.primary.dark, fontSize: '32px'}}><b>{data.id}</b></span> for future references.</Typography>
                     <Button variant="contained" color="error" onClick={onClickOk}>OK</Button>
                 </Stack>
             </Box>

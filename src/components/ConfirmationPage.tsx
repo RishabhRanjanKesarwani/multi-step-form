@@ -176,7 +176,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                     </Box>
                 </Stack>
             </Stack>
-            <Button variant="contained" color="error" size="large" onClick={onSubmit}>Submit</Button>
+            <Button variant="contained" color="error" size="large" onClick={onSubmit}>{errorMessage ? 'Retry' : 'Submit'}</Button>
             <Webcam onUsingScreenshot={(imgSrc: string) => onValueChange('image', imgSrc)} closeModal={() => setIsCameraModalOpen(false)} open={isCameraModalOpen} />
             <Signature onUsingSignature={(signSrc: string) => onValueChange('signature', signSrc)} closeModal={() => setIsSignatureModalOpen(false)} open={isSignatureModalOpen} />
         </Stack>
