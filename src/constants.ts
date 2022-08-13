@@ -45,19 +45,19 @@ export const API_PARAMS = {
 export const API_ERRORS = {
     getError: {
         errorCode: 601,
-        errorMessage: 'Some error occurred in getting the data.',
+        errorMessage: 'Some error occurred in getting the data. Please try again after some time.',
     },
     postError: {
         errorCode: 602,
-        errorMessage: 'Some error occurred in saving the data.',
+        errorMessage: 'Some error occurred in saving the data. Please try again after some time.',
     },
     putError: {
         errorCode: 603,
-        errorMessage: 'Some error occurred in updating the data.',
+        errorMessage: 'Some error occurred in updating the data. Please try again after some time.',
     },
     deleteError: {
         errorCode: 604,
-        errorMessage: 'Some error occurred in deleting the data.',
+        errorMessage: 'Some error occurred in deleting the data. Please try again after some time.',
     },
 };
 

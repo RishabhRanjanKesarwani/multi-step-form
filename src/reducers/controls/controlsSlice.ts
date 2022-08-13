@@ -43,7 +43,12 @@ export const controlsSlice = createSlice({
       state.isStep3Frozen = action.payload.isStep3Frozen;
     },
     onControlsReset: (state) => {
-      state = initialState;
+      state.isStep1Complete = false;
+      state.isStep1Frozen = false;
+      state.isStep2Complete = false;
+      state.isStep2Frozen = false;
+      state.isStep3Complete = false;
+      state.isStep3Frozen = false;
     }
   },
 });

@@ -40,7 +40,17 @@ export const userDetailsSlice = createSlice({
         state.data = {...state.data, ...action.payload}
     },
     onUserDetailsReset: (state) => {
-      state = initialState;
+      state.loading = false;
+      state.error = {
+        errorCode: 0,
+        errorMessage: ''
+      }
+      state.data = {
+        id: '',
+        createdAt: '',
+        updatedAt: '',
+        ...FORM_INITIAL_STATE
+      };
     }
   },
 });

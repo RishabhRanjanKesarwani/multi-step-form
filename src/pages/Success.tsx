@@ -2,13 +2,15 @@ import Done from '@mui/icons-material/Done';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../app/hooks';
-import { getControls } from '../reducers/controls/controlsSlice';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getControls, onControlsReset } from '../reducers/controls/controlsSlice';
+import { onUserDetailsReset } from '../reducers/userDetails/userDetailsSlice';
 import COLORS from '../utils/colors';
 
 const Success = () => {
     const controls = useAppSelector(getControls);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const { isStep1Complete, isStep2Complete, isStep3Complete } = controls;
@@ -16,6 +18,12 @@ const Success = () => {
             navigate('/');
         }
     }, [controls, navigate]);
+
+    const onClickOk = () => {
+        dispatch(onUserDetailsReset());
+        dispatch(onControlsReset());
+        navigate('/');
+    }
 
     return (
         <Stack direction="row" justifyContent="center">
@@ -26,7 +34,7 @@ const Success = () => {
                     </Box>
                     <Typography variant="h3">Success</Typography>
                     <Typography variant="h5">Your application has been submitted.</Typography>
-                    <Button variant="contained" color="error" onClick={() => navigate('/')}>OK</Button>
+                    <Button variant="contained" color="error" onClick={onClickOk}>OK</Button>
                 </Stack>
             </Box>
         </Stack>

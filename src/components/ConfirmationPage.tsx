@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Modal, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { FORM_LABELS, LOCALSTORAGE_KEYS, TAB_IDS } from '../constants';
@@ -11,7 +11,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FolderIcon from "@mui/icons-material/Folder";
 import GestureIcon from "@mui/icons-material/Gesture";
 import PortraitOutlinedIcon from "@mui/icons-material/PortraitOutlined";
-import signaturePlaceHolder from "../assets/signature-solid.svg";
+import signaturePlaceHolder from "../assets/images/signature-solid.svg";
 import Webcam from './Webcam';
 import Signature from './Signature';
 
@@ -114,8 +114,8 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                 dispatch(onSuccess(response));
                 dispatch(onStep3FrozenChange(true));
                 dispatch(onStep3StateChange(true));
-                // localStorage.removeItem(LOCALSTORAGE_KEYS.userDetails);
-                // localStorage.removeItem(LOCALSTORAGE_KEYS.controls);
+                localStorage.removeItem(LOCALSTORAGE_KEYS.userDetails);
+                localStorage.removeItem(LOCALSTORAGE_KEYS.controls);
                 onNext(TAB_IDS.step3);
             }
         }
@@ -166,7 +166,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                     <Box sx={{ border: `1px dashed ${COLORS.black}`, borderRadius: '10px', padding: '0 5px' }}>
                         <Stack direction="column" alignItems="center">
                             <Stack direction="row" alignItems="center" justifyContent="space-between" minWidth={200}>
-                                <img src={confirmationPage.signature ? confirmationPage.signature : signaturePlaceHolder} alt="signature" width={100} height={100} style={{borderRadius: 10, margin: '0 10px'}} />
+                                <img src={confirmationPage.signature ? confirmationPage.signature : signaturePlaceHolder} alt="signature" width={80} height={80} style={{border: confirmationPage.signature ? '1px solid' : 'none', borderRadius: 10, margin: '10px 20px'}} />
                                 <IconButton onClick={() => setIsSignatureModalOpen(true)}>
                                     <GestureIcon sx={{fontSize: 40}} titleAccess="Click to do your signature" />
                                 </IconButton>
@@ -177,12 +177,8 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                 </Stack>
             </Stack>
             <Button variant="contained" color="error" size="large" onClick={onSubmit}>Submit</Button>
-            <Modal open={isCameraModalOpen} onClose={() => setIsCameraModalOpen(false)} >
-                <Webcam onUsingScreenshot={(imgSrc: string) => onValueChange('image', imgSrc)} closeModal={() => setIsCameraModalOpen(false)} />
-            </Modal>
-            <Modal open={isSignatureModalOpen} onClose={() => setIsSignatureModalOpen(false)} >
-                <Signature onUsingSignature={(signSrc: string) => onValueChange('signature', signSrc)} closeModal={() => setIsSignatureModalOpen(false)} />
-            </Modal>
+            <Webcam onUsingScreenshot={(imgSrc: string) => onValueChange('image', imgSrc)} closeModal={() => setIsCameraModalOpen(false)} open={isCameraModalOpen} />
+            <Signature onUsingSignature={(signSrc: string) => onValueChange('signature', signSrc)} closeModal={() => setIsSignatureModalOpen(false)} open={isSignatureModalOpen} />
         </Stack>
     );
 };
