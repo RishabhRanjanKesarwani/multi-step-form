@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, Modal, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { FORM_LABELS, LOCALSTORAGE_KEYS, TAB_IDS } from '../constants';
@@ -12,6 +12,8 @@ import FolderIcon from "@mui/icons-material/Folder";
 import GestureIcon from "@mui/icons-material/Gesture";
 import PortraitOutlinedIcon from "@mui/icons-material/PortraitOutlined";
 import signaturePlaceHolder from "../assets/signature-solid.svg";
+import Webcam from './Webcam';
+import Signature from './Signature';
 
 interface ConfirmationPageProps {
     onNext: (stepComplete: TAB_IDS) => void;
@@ -74,6 +76,8 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
     // @ts-ignore: Type error
     const [confirmationPage, setConfirmationPage] = useState<ConfirmationPageState>({});
     const [fieldErrors, setFieldErrors] = useState<{[key: string]: string}>({});
+    const [isCameraModalOpen, setIsCameraModalOpen] = useState<boolean>(false);
+    const [isSignatureModalOpen, setIsSignatureModalOpen] = useState<boolean>(false);
 
     const { onNext } = props;
 
@@ -86,11 +90,11 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
         setConfirmationPage(savedConfirmationPage);
     }, [data]);
 
-    const onValueChange = (key: string, value: File | null) => {
+    const onValueChange = (key: string, value: string) => {
         if (isConfirmationPageFrozen) {
             dispatch(onStep3FrozenChange(false));
         }
-        setConfirmationPage({...confirmationPage, [key]: value ? URL.createObjectURL(value) : ''})
+        setConfirmationPage({...confirmationPage, [key]: value})
         setFieldErrors({...fieldErrors, [`${key}Error`]: ''});
     }
 
@@ -143,32 +147,42 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                                     <PortraitOutlinedIcon sx={{fontSize: 120}} />
                                 )}
                                 <Stack direction="column" alignItems="center" justifyContent="space-evenly">
-                                    <IconButton>
+                                    <IconButton onClick={() => setIsCameraModalOpen(true)}>
                                         <CameraAltIcon sx={{fontSize: 40}} titleAccess="Use your camera to click your picture" />
                                     </IconButton>
                                     <IconButton component="label">
                                         <FolderIcon sx={{fontSize: 40}} titleAccess="Browse on your computer" />
-                                        <input type="file" hidden accept="image/*" onChange={(event: React.ChangeEvent<HTMLInputElement>) => onValueChange('image', event.target.files ? event.target.files[0] : null)}/>
+                                        <input type="file" hidden accept="image/*" onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                            const file = event.target.files ? event.target.files[0] : null;
+                                            const imgSrc = file ? URL.createObjectURL(file) : '';
+                                            onValueChange('image', imgSrc);
+                                        }}/>
                                     </IconButton>
                                 </Stack>
                             </Stack>
-                            {fieldErrors.imageError ? <Typography variant="body1" color={COLORS.primary.medium}>{fieldErrors.imageError}</Typography> : <Typography variant="button">Picture</Typography>}
+                            {fieldErrors.imageError ? <Typography variant="body1" color={COLORS.primary.dark}>{fieldErrors.imageError}</Typography> : <Typography variant="button">Picture</Typography>}
                         </Stack>
                     </Box>
                     <Box sx={{ border: `1px dashed ${COLORS.black}`, borderRadius: '10px', padding: '0 5px' }}>
                         <Stack direction="column" alignItems="center">
                             <Stack direction="row" alignItems="center" justifyContent="space-between" minWidth={200}>
                                 <img src={confirmationPage.signature ? confirmationPage.signature : signaturePlaceHolder} alt="signature" width={100} height={100} style={{borderRadius: 10, margin: '0 10px'}} />
-                                <IconButton>
+                                <IconButton onClick={() => setIsSignatureModalOpen(true)}>
                                     <GestureIcon sx={{fontSize: 40}} titleAccess="Click to do your signature" />
                                 </IconButton>
                             </Stack>
-                            {fieldErrors.signatureError ? <Typography variant="body1" color={COLORS.primary.medium}>{fieldErrors.signatureError}</Typography> : <Typography variant="button">Signature</Typography>}
+                            {fieldErrors.signatureError ? <Typography variant="body1" color={COLORS.primary.dark}>{fieldErrors.signatureError}</Typography> : <Typography variant="button">Signature</Typography>}
                         </Stack>
                     </Box>
                 </Stack>
             </Stack>
             <Button variant="contained" color="error" size="large" onClick={onSubmit}>Submit</Button>
+            <Modal open={isCameraModalOpen} onClose={() => setIsCameraModalOpen(false)} >
+                <Webcam onUsingScreenshot={(imgSrc: string) => onValueChange('image', imgSrc)} closeModal={() => setIsCameraModalOpen(false)} />
+            </Modal>
+            <Modal open={isSignatureModalOpen} onClose={() => setIsSignatureModalOpen(false)} >
+                <Signature onUsingSignature={(signSrc: string) => onValueChange('signature', signSrc)} closeModal={() => setIsSignatureModalOpen(false)} />
+            </Modal>
         </Stack>
     );
 };

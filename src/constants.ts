@@ -1,4 +1,5 @@
 import Tab from "./types/tab";
+import COLORS from "./utils/colors";
 
 export enum TAB_IDS {
     step1 = 'step1',
@@ -97,4 +98,15 @@ export const FORM_INITIAL_STATE = {
     workPOBoxNumber: '',
     image: '',
     signature: '',
+};
+
+export const MODAL_STYLE = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: COLORS.white,
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
 };
