@@ -13,6 +13,7 @@ import OfficeDetails from "../components/OfficeDetails";
 import ConfirmationPage from "../components/ConfirmationPage";
 import { useNavigate } from "react-router-dom";
 import COLORS from "../utils/colors";
+import styles from "../assets/styles/animation.module.css";
 
 const Signup = () => {
     const userDetailsState = useAppSelector(getUserDetails);
@@ -51,7 +52,9 @@ const Signup = () => {
                 <SignupHeader pageName={activeTab.name} userName={data.name ? data.name : 'user'} />
                 <SignupTabs isActive={activeTab} onTabClick={(tab: Tab) => setActiveTab(tab)} />
                 <SignupContainer>
-                    {activeTab.id === TAB_IDS.step1 ? <PersonalInfo onNext={onNext} /> : activeTab.id === TAB_IDS.step2 ? <OfficeDetails onNext={onNext} /> : <ConfirmationPage onNext={onNext} />}
+                    <PersonalInfo onNext={onNext} className={activeTab.id === TAB_IDS.step1 ? styles.show : styles.hide} />
+                    <OfficeDetails onNext={onNext} className={activeTab.id === TAB_IDS.step2 ? styles.show : styles.hide} />
+                    <ConfirmationPage onNext={onNext} className={activeTab.id === TAB_IDS.step3 ? styles.show : styles.hide} />
                 </SignupContainer>
             </Stack>
             <Backdrop sx={{ color: COLORS.white, zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>

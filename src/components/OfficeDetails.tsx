@@ -11,6 +11,7 @@ import { isMobileNumberValid } from '../utils/validations';
 
 interface OfficeDetailsProps {
     onNext: (stepComplete: TAB_IDS) => void;
+    className: string;
 }
 
 interface FieldErrorsAndControl {
@@ -78,7 +79,7 @@ const OfficeDetails = (props: OfficeDetailsProps) => {
     const [officeDetails, setOfficeDetails] = useState<OfficeDetailsState>({});
     const [fieldErrors, setFieldErrors] = useState<{[key: string]: string}>({});
 
-    const { onNext } = props;
+    const { onNext, className } = props;
 
     useEffect(() => {
         const savedOfficeDetails: OfficeDetailsState = initialState;
@@ -121,12 +122,12 @@ const OfficeDetails = (props: OfficeDetailsProps) => {
     };
 
     return (
-        <Stack direction="column" alignItems="center" spacing={4}>
+        <Stack direction="column" alignItems="center" spacing={4} className={className}>
             {errorMessage && <Typography variant="body1" color={COLORS.primary.dark}>{errorMessage}</Typography>}
             <Stack direction="column" alignItems="flex-end" spacing={2}>
                 {Object.keys(officeDetails).map(key => (
                     <Stack key={key} direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} spacing={{xs: 0, sm: 0, md: 6, lg: 6}} alignItems="center">
-                        <Typography variant="body1">{FORM_LABELS[key]}</Typography>
+                        <Typography variant="body1" sx={{whiteSpace: 'nowrap'}}>{FORM_LABELS[key]}</Typography>
                         {/* @ts-ignore: Type error */}
                         <TextField error={!!fieldErrors[`${key}Error`]} helperText={fieldErrors[`${key}Error`]} variant="outlined" size="small" sx={{width: '300px'}} value={officeDetails[key]} onChange={(event: React.ChangeEvent<HTMLInputElement>) => onValueChange(key, event.target.value)} />
                     </Stack>

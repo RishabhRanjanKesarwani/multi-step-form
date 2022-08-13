@@ -18,6 +18,7 @@ import detectWebcam from '../utils/webcam';
 
 interface ConfirmationPageProps {
     onNext: (stepComplete: TAB_IDS) => void;
+    className: string;
 }
 
 interface FieldErrorsAndControl {
@@ -81,7 +82,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
     const [isSignatureModalOpen, setIsSignatureModalOpen] = useState<boolean>(false);
     const [isWebcamAvailable, setIsWebcamAvailable] = useState<boolean>(false);
 
-    const { onNext } = props;
+    const { onNext, className } = props;
 
     useEffect(() => {
         const savedConfirmationPage: ConfirmationPageState = initialState;
@@ -130,19 +131,19 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
     };
 
     return (
-        <Stack direction="column" alignItems="center" spacing={4}>
+        <Stack direction="column" alignItems="center" spacing={4} sx={{paddingTop: '5px'}} className={className}>
             {errorMessage && <Typography variant="body1" color={COLORS.primary.dark}>{errorMessage}</Typography>}
             <Stack direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} width="100%" alignItems="center" justifyContent="space-evenly" spacing={{ xs: 6, sm: 6, md: 0, lg: 0 }}>
                 <Stack direction="column" spacing={2}>
                     {getKeys(TAB_IDS.step1).map(key => (
                         /* @ts-ignore: Type error */
-                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={FORM_LABELS[key]} />
+                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} />
                     ))}
                 </Stack>
                 <Stack direction="column" spacing={2}>
                     {getKeys(TAB_IDS.step2).map(key => (
                         /* @ts-ignore: Type error */
-                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={FORM_LABELS[key]} />
+                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} />
                     ))}
                 </Stack>
                 <Stack direction="column" spacing={4}>
