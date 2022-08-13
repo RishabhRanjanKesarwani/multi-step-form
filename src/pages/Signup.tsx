@@ -47,7 +47,7 @@ const Signup = () => {
 
     return (
         <>
-            <Stack direction="column" spacing={2}>
+            <Stack direction="column">
                 <SignupHeader pageName={activeTab.name} userName={data.name ? data.name : 'user'} />
                 <SignupTabs isActive={activeTab} onTabClick={(tab: Tab) => setActiveTab(tab)} />
                 <SignupContainer>

@@ -57,7 +57,7 @@ const SignupTabs = (props: SignupTabsProps) => {
     }
 
     return (
-        <Stack direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} alignItems="center" justifyContent="center">
+        <Stack direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} alignItems="center" justifyContent="center" sx={{background: COLORS.secondary.lightest, padding: '16px 0'}}>
             {tabsAndHyphens.map(tab => (
                 tab.id.includes('step') ? (
                     <Box key={tab.id} sx={{ padding: '3px', border: tab.id === isActive.id ? `1px solid ${COLORS.primary.dark}` : 'none', borderRadius: '50%', cursor: 'pointer' }} onClick={() => onClick(tab)}>

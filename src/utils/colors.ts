@@ -7,6 +7,7 @@ const COLORS = {
         dark: red[500],
     },
     secondary: {
+        lightest: grey[50],
         light: grey[200],
         medium: grey[300],
         dark: grey[600],

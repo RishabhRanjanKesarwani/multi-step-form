@@ -12,7 +12,7 @@ const SignupHeader = (props: SignupHeaderProps) => {
     const { pageName, userName } = props;
 
     return (
-        <Stack direction="row" spacing={1} justifyContent="space-between">
+        <Stack direction="row" spacing={1} justifyContent="space-between" sx={{background: COLORS.secondary.lightest}}>
             <Typography variant="h5" sx={{margin: '32px 12px 4px 24px', color: COLORS.secondary.darkest}}>{pageName}</Typography>
             <Box sx={{padding: '12px', backgroundColor: COLORS.primary.dark, width: 300, borderBottomLeftRadius: 16, height: 'fit-content'}}>
                 <Stack direction="row" justifyContent="space-between">
