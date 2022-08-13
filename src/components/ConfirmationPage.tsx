@@ -14,6 +14,7 @@ import PortraitOutlinedIcon from "@mui/icons-material/PortraitOutlined";
 import signaturePlaceHolder from "../assets/images/signature-solid.svg";
 import Webcam from './Webcam';
 import Signature from './Signature';
+import detectWebcam from '../utils/webcam';
 
 interface ConfirmationPageProps {
     onNext: (stepComplete: TAB_IDS) => void;
@@ -78,6 +79,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
     const [fieldErrors, setFieldErrors] = useState<{[key: string]: string}>({});
     const [isCameraModalOpen, setIsCameraModalOpen] = useState<boolean>(false);
     const [isSignatureModalOpen, setIsSignatureModalOpen] = useState<boolean>(false);
+    const [isWebcamAvailable, setIsWebcamAvailable] = useState<boolean>(false);
 
     const { onNext } = props;
 
@@ -88,6 +90,12 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
             savedConfirmationPage[key] = data[key];
         });
         setConfirmationPage(savedConfirmationPage);
+
+        const checkIfWebcamAvailable = async () => {
+            const answer = await detectWebcam();
+            setIsWebcamAvailable(answer);
+        }
+        checkIfWebcamAvailable();
     }, [data]);
 
     const onValueChange = (key: string, value: string) => {
@@ -147,9 +155,11 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                                     <PortraitOutlinedIcon sx={{fontSize: 120}} />
                                 )}
                                 <Stack direction="column" alignItems="center" justifyContent="space-evenly">
-                                    <IconButton onClick={() => setIsCameraModalOpen(true)}>
-                                        <CameraAltIcon sx={{fontSize: 40}} titleAccess="Use your camera to click your picture" />
-                                    </IconButton>
+                                    {isWebcamAvailable && (
+                                        <IconButton onClick={() => setIsCameraModalOpen(true)}>
+                                            <CameraAltIcon sx={{fontSize: 40}} titleAccess="Use your camera to click your picture" />
+                                        </IconButton>
+                                    )}
                                     <IconButton component="label">
                                         <FolderIcon sx={{fontSize: 40}} titleAccess="Browse on your computer" />
                                         <input type="file" hidden accept="image/*" onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
