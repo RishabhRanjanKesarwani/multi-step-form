@@ -36,9 +36,9 @@ const initialErrorState: { [key: string]: string } = {
 const getFieldError = (key: string, value: string): string => {
     switch (key) {
         case 'image':
-            return value ? '' : 'Image is a required field. It cannot be blank';
+            return value ? '' : 'Image is a required field';
         case 'signature':
-            return value ? '' : 'Signature is a required field. It cannot be blank';
+            return value ? '' : 'Signature is a required field';
         default:
             return '';
     }
@@ -86,11 +86,11 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
         setConfirmationPage(savedConfirmationPage);
     }, [data]);
 
-    const onValueChange = (key: string, value: string) => {
+    const onValueChange = (key: string, value: File | null) => {
         if (isConfirmationPageFrozen) {
             dispatch(onStep3FrozenChange(false));
         }
-        setConfirmationPage({...confirmationPage, [key]: value})
+        setConfirmationPage({...confirmationPage, [key]: value ? URL.createObjectURL(value) : ''})
         setFieldErrors({...fieldErrors, [`${key}Error`]: ''});
     }
 
@@ -110,8 +110,8 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                 dispatch(onSuccess(response));
                 dispatch(onStep3FrozenChange(true));
                 dispatch(onStep3StateChange(true));
-                localStorage.removeItem(LOCALSTORAGE_KEYS.userDetails);
-                localStorage.removeItem(LOCALSTORAGE_KEYS.controls);
+                // localStorage.removeItem(LOCALSTORAGE_KEYS.userDetails);
+                // localStorage.removeItem(LOCALSTORAGE_KEYS.controls);
                 onNext(TAB_IDS.step3);
             }
         }
@@ -134,29 +134,36 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                     ))}
                 </Stack>
                 <Stack direction="column" spacing={4}>
-                    <Box sx={{ border: `1px dashed ${COLORS.black}`, borderRadius: '10px', padding: '10px' }}>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" minWidth={200}>
-                            {confirmationPage.image ? (
-                                <img src={confirmationPage.image} alt="user" width={120} />
-                            ) : (
-                                <PortraitOutlinedIcon sx={{fontSize: 120}} />
-                            )}
-                            <Stack direction="column" alignItems="center" justifyContent="space-evenly">
-                                <IconButton>
-                                    <CameraAltIcon sx={{fontSize: 40}} />
-                                </IconButton>
-                                <IconButton>
-                                    <FolderIcon sx={{fontSize: 40}} />
-                                </IconButton>
+                    <Box sx={{ border: `1px dashed ${COLORS.black}`, borderRadius: '10px', padding: '0 5px' }}>
+                        <Stack direction="column" alignItems="center">
+                            <Stack direction="row" alignItems="center" justifyContent="space-between" minWidth={200}>
+                                {confirmationPage.image ? (
+                                    <img src={confirmationPage.image} alt="User" width={100} height={100} style={{borderRadius: 10, margin: 10}} />
+                                ) : (
+                                    <PortraitOutlinedIcon sx={{fontSize: 120}} />
+                                )}
+                                <Stack direction="column" alignItems="center" justifyContent="space-evenly">
+                                    <IconButton>
+                                        <CameraAltIcon sx={{fontSize: 40}} titleAccess="Use your camera to click your picture" />
+                                    </IconButton>
+                                    <IconButton component="label">
+                                        <FolderIcon sx={{fontSize: 40}} titleAccess="Browse on your computer" />
+                                        <input type="file" hidden accept="image/*" onChange={(event: React.ChangeEvent<HTMLInputElement>) => onValueChange('image', event.target.files ? event.target.files[0] : null)}/>
+                                    </IconButton>
+                                </Stack>
                             </Stack>
+                            {fieldErrors.imageError ? <Typography variant="body1" color={COLORS.primary.medium}>{fieldErrors.imageError}</Typography> : <Typography variant="button">Picture</Typography>}
                         </Stack>
                     </Box>
-                    <Box sx={{ border: `1px dashed ${COLORS.black}`, borderRadius: '10px', padding: '10px' }}>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" minWidth={200}>
-                            <img src={confirmationPage.signature ? confirmationPage.signature : signaturePlaceHolder} alt="signature" width={120} />
-                            <IconButton>
-                                <GestureIcon sx={{fontSize: 40}} />
-                            </IconButton>
+                    <Box sx={{ border: `1px dashed ${COLORS.black}`, borderRadius: '10px', padding: '0 5px' }}>
+                        <Stack direction="column" alignItems="center">
+                            <Stack direction="row" alignItems="center" justifyContent="space-between" minWidth={200}>
+                                <img src={confirmationPage.signature ? confirmationPage.signature : signaturePlaceHolder} alt="signature" width={100} height={100} style={{borderRadius: 10, margin: '0 10px'}} />
+                                <IconButton>
+                                    <GestureIcon sx={{fontSize: 40}} titleAccess="Click to do your signature" />
+                                </IconButton>
+                            </Stack>
+                            {fieldErrors.signatureError ? <Typography variant="body1" color={COLORS.primary.medium}>{fieldErrors.signatureError}</Typography> : <Typography variant="button">Signature</Typography>}
                         </Stack>
                     </Box>
                 </Stack>
