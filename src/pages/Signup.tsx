@@ -15,11 +15,18 @@ import { useNavigate } from "react-router-dom";
 import COLORS from "../utils/colors";
 import styles from "../assets/styles/animation.module.css";
 
+const getClasses = (tab: Tab, activeTab: Tab): string => {
+    const classes = [];
+    classes.push(tab.id ===  activeTab.id ? styles.show : styles.hide)
+    classes.push(parseInt(tab.label, 10) >= parseInt(activeTab.label, 10) ? styles.rightToLeft : '');
+    return classes.join(' ');
+};
+
 const Signup = () => {
     const userDetailsState = useAppSelector(getUserDetails);
     const dispatch = useAppDispatch();
-    const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
 
     const { data, loading } = userDetailsState;
 
@@ -32,17 +39,20 @@ const Signup = () => {
         if (stringifiedControls) {
             dispatch(onAllControlsUpdate(JSON.parse(stringifiedControls)));
         }
-    }, [dispatch])
+    }, [dispatch]);
 
     const onNext = (stepComplete: TAB_IDS) => {
-        if (stepComplete === TAB_IDS.step1) {
-            setActiveTab(TABS[1]);
-        }
-        if (stepComplete === TAB_IDS.step2) {
-            setActiveTab(TABS[2]);
-        }
-        if (stepComplete === TAB_IDS.step3) {
-            navigate('/success');
+        switch (stepComplete) {
+            case TAB_IDS.step1:
+                setActiveTab(TABS[1]);
+                break;
+            case TAB_IDS.step2:
+                setActiveTab(TABS[2]);
+                break;
+            case TAB_IDS.step3:
+            default:
+                navigate('/success');
+                break;
         }
     };
 
@@ -52,9 +62,9 @@ const Signup = () => {
                 <SignupHeader pageName={activeTab.name} userName={data.name ? data.name : 'user'} />
                 <SignupTabs isActive={activeTab} onTabClick={(tab: Tab) => setActiveTab(tab)} />
                 <SignupContainer>
-                    <PersonalInfo onNext={onNext} className={activeTab.id === TAB_IDS.step1 ? styles.show : styles.hide} />
-                    <OfficeDetails onNext={onNext} className={activeTab.id === TAB_IDS.step2 ? styles.show : styles.hide} />
-                    <ConfirmationPage onNext={onNext} className={activeTab.id === TAB_IDS.step3 ? styles.show : styles.hide} />
+                    <PersonalInfo onNext={onNext} className={getClasses(TABS[0], activeTab)} />
+                    <OfficeDetails onNext={onNext} className={getClasses(TABS[1], activeTab)} />
+                    <ConfirmationPage onNext={onNext} className={getClasses(TABS[2], activeTab)} />
                 </SignupContainer>
             </Stack>
             <Backdrop sx={{ color: COLORS.white, zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>

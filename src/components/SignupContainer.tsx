@@ -10,8 +10,8 @@ const SignupContainer = (props: SignupContainerProps) => {
     const { children } = props;
 
     return (
-        <Box sx={{ padding: '50px'}}>
-            <Box sx={{ background: COLORS.white, border: `1px dashed ${COLORS.black}`, borderRadius: '50px', padding: '50px' }}>
+        <Box sx={{ padding: {xs: '30px 10px', sm: '50px', md: '50px', lg: '50px'} }}>
+            <Box sx={{ background: COLORS.white, border: `1px dashed ${COLORS.black}`, borderRadius: '50px', padding: {xs: '30px 10px', sm: '50px', md: '50px', lg: '50px'} }}>
                 {children}
             </Box>
         </Box>

@@ -9,3 +9,13 @@
     height: 0;
     overflow: hidden;
 }
+
+.show.rightToLeft {
+    left: 0;
+    position: relative;
+}
+
+.hide.rightToLeft {
+    left: 100%;
+    position: relative;
+}
