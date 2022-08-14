@@ -1,6 +1,7 @@
 import { Card, CardActionArea, CardContent, CardMedia, Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { TEST_IDS } from "../constants";
 import COLORS from "../utils/colors";
 
 const signupImage = 'https://media.istockphoto.com/photos/start-line-on-the-highway-picture-id665037818?k=20&m=665037818&s=612x612&w=0&h=jYMZ2rNNrHDiEo-dd7dShHmxOMLkJGaBBpIUdsmDm3M=';
@@ -12,7 +13,7 @@ const Home = () => {
     return (
         <Container sx={{ paddingTop: '24px', paddingBottom: '24px' }}>
             <Stack alignItems="center" justifyContent="center">
-                <Card onClick={() => navigate('/signup')}>
+                <Card onClick={() => navigate('/signup')} data-testid={TEST_IDS.signupCard}>
                     <CardActionArea>
                         <CardMedia component="img" height="400" alt="Image to sign up" image={signupImage} />
                         <CardContent sx={{ textAlign: 'left' }}>

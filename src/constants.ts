@@ -110,3 +110,10 @@ export const MODAL_STYLE = {
     boxShadow: 24,
     p: 4,
 };
+
+export const TEST_IDS = {
+    appDiv: 'app-div',
+    signupCard: 'signup-card',
+    signup: 'signup',
+    signupHeader: 'signup-header',
+}

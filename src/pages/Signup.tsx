@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import SignupHeader from "../components/SignupHeader";
 import SignupTabs from "../components/SignupTabs";
-import { LOCALSTORAGE_KEYS, TABS, TAB_IDS } from "../constants";
+import { LOCALSTORAGE_KEYS, TABS, TAB_IDS, TEST_IDS } from "../constants";
 import { onAllControlsUpdate } from "../reducers/controls/controlsSlice";
 import { getUserDetails, onSuccess } from "../reducers/userDetails/userDetailsSlice";
 import Tab from "../types/tab";
@@ -58,7 +58,7 @@ const Signup = () => {
 
     return (
         <>
-            <Stack direction="column">
+            <Stack direction="column" data-testid={TEST_IDS.signup}>
                 <SignupHeader pageName={activeTab.name} userName={data.name ? data.name : 'user'} />
                 <SignupTabs isActive={activeTab} onTabClick={(tab: Tab) => setActiveTab(tab)} />
                 <SignupContainer>
