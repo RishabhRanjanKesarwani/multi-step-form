@@ -25,7 +25,7 @@ Install all the dependencies before running the application.
 ### 4. `npm start`
 
 You're all set to use the application in the development mode!\
-If not opened automatically, go to [localhost:3000](http://localhost:3000/) to interact with the application.
+If not opened automatically, go to [localhost:3000](http://localhost:3000/) to interact with the application.\
 The page will reload if you make edits.
 
 ### 5. Read [HOW-TO-USE](https://github.com/RishabhRanjanKesarwani/multi-step-form/blob/master/HOW-TO-USE.md) (optional)
@@ -51,4 +51,4 @@ Lines: **73.31%**
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for best performance.\
-The build is minified and the filenames include the hashes.\
+The build is minified and the filenames include the hashes.
