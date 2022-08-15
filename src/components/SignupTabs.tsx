@@ -1,7 +1,7 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { useAppSelector } from '../app/hooks';
-import { TABS, TAB_IDS } from '../constants';
+import { TABS, TAB_IDS, TEST_IDS } from '../constants';
 import { getControls } from '../reducers/controls/controlsSlice';
 import Tab from '../types/tab';
 import COLORS from '../utils/colors';
@@ -61,12 +61,12 @@ const SignupTabs = (props: SignupTabsProps) => {
             {tabsAndHyphens.map(tab => (
                 tab.id.includes('step') ? (
                     <Box key={tab.id} sx={{ padding: '3px', border: tab.id === isActive.id ? `1px solid ${COLORS.primary.dark}` : 'none', borderRadius: '50%', cursor: 'pointer' }} onClick={() => onClick(tab)}>
-                        <Box sx={{ width: '30px', height: '30px', border: `1px solid ${isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.primary.medium}`, background: isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.secondary.medium, borderRadius: '50%', '&:hover': { background: isStatusComplete(tab.id) ? COLORS.primary.medium : COLORS.secondary.light } }}>
+                        <Box sx={{ width: '30px', height: '30px', border: `1px solid ${isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.primary.medium}`, background: isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.secondary.medium, borderRadius: '50%', '&:hover': { background: isStatusComplete(tab.id) ? COLORS.primary.medium : COLORS.secondary.light } }} data-testid={TEST_IDS.signupTab}>
                             <Typography variant="body2" color={isStatusComplete(tab.id) ? COLORS.white : COLORS.secondary.dark} align="center" sx={{ marginTop: '5px' }}>{tab.label}</Typography>
                         </Box>
                     </Box>
                 ) : (
-                    <Divider key={tab.id} sx={{width: '200px', height: '1px', margin: '10px 100px', background: isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.primary.light}} />
+                    <Divider key={tab.id} sx={{width: '200px', height: '1px', margin: '10px 100px', background: isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.primary.light}} data-testid={TEST_IDS.signupDivider} />
                 )
             ))}
         </Stack>

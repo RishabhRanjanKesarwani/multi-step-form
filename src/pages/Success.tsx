@@ -3,6 +3,7 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { TEST_IDS } from '../constants';
 import { getControls, onControlsReset } from '../reducers/controls/controlsSlice';
 import { getUserDetails, onUserDetailsReset } from '../reducers/userDetails/userDetailsSlice';
 import COLORS from '../utils/colors';
@@ -35,7 +36,7 @@ const Success = () => {
                     </Box>
                     <Typography variant="h3">Success</Typography>
                     <Typography variant="h5">Your application has been submitted. Use application ID <span style={{color: COLORS.primary.dark, fontSize: '32px'}}><b>{data.id}</b></span> for future references.</Typography>
-                    <Button variant="contained" color="error" onClick={onClickOk}>OK</Button>
+                    <Button variant="contained" color="error" onClick={onClickOk} data-testid={TEST_IDS.successOkButton}>OK</Button>
                 </Stack>
             </Box>
         </Stack>

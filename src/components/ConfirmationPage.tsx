@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { FORM_LABELS, LOCALSTORAGE_KEYS, TAB_IDS } from '../constants';
+import { FORM_LABELS, LOCALSTORAGE_KEYS, TAB_IDS, TEST_IDS } from '../constants';
 import { getControls, onStep3FrozenChange, onStep3StateChange } from '../reducers/controls/controlsSlice';
 import { getUserDetails, onError, onLoad, onSuccess } from '../reducers/userDetails/userDetailsSlice';
 import { updateUser } from '../services';
@@ -137,13 +137,13 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                 <Stack direction="column" spacing={2}>
                     {getKeys(TAB_IDS.step1).map(key => (
                         /* @ts-ignore: Type error */
-                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} />
+                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} data-testid={TEST_IDS.confirmationPageTextField} />
                     ))}
                 </Stack>
                 <Stack direction="column" spacing={2}>
                     {getKeys(TAB_IDS.step2).map(key => (
                         /* @ts-ignore: Type error */
-                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} />
+                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} data-testid={TEST_IDS.confirmationPageTextField} />
                     ))}
                 </Stack>
                 <Stack direction="column" spacing={4}>
@@ -157,7 +157,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                                 )}
                                 <Stack direction="column" alignItems="center" justifyContent="space-evenly">
                                     {isWebcamAvailable && (
-                                        <IconButton onClick={() => setIsCameraModalOpen(true)}>
+                                        <IconButton onClick={() => setIsCameraModalOpen(true)} data-testid={TEST_IDS.confirmationPageCaptureButton}>
                                             <CameraAltIcon sx={{fontSize: 40}} titleAccess="Use your camera to click your picture" />
                                         </IconButton>
                                     )}
@@ -167,7 +167,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                                             const file = event.target.files ? event.target.files[0] : null;
                                             const imgSrc = file ? URL.createObjectURL(file) : '';
                                             onValueChange('image', imgSrc);
-                                        }}/>
+                                        }} data-testid={TEST_IDS.confirmationPageUploadButton}/>
                                     </IconButton>
                                 </Stack>
                             </Stack>
@@ -178,7 +178,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                         <Stack direction="column" alignItems="center">
                             <Stack direction="row" alignItems="center" justifyContent="space-between" minWidth={200}>
                                 <img src={confirmationPage.signature ? confirmationPage.signature : signaturePlaceHolder} alt="signature" width={80} height={80} style={{border: confirmationPage.signature ? '1px solid' : 'none', borderRadius: 10, margin: '10px 20px'}} />
-                                <IconButton onClick={() => setIsSignatureModalOpen(true)}>
+                                <IconButton onClick={() => setIsSignatureModalOpen(true)} data-testid={TEST_IDS.confirmationPageSignButton}>
                                     <GestureIcon sx={{fontSize: 40}} titleAccess="Click to do your signature" />
                                 </IconButton>
                             </Stack>
@@ -187,7 +187,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
                     </Box>
                 </Stack>
             </Stack>
-            <Button variant="contained" color="error" size="large" onClick={onSubmit}>{errorMessage ? 'Retry' : 'Submit'}</Button>
+            <Button variant="contained" color="error" size="large" onClick={onSubmit} data-testid={TEST_IDS.confirmationPageSubmitButton}>{errorMessage ? 'Retry' : 'Submit'}</Button>
             <Webcam onUsingScreenshot={(imgSrc: string) => onValueChange('image', imgSrc)} closeModal={() => setIsCameraModalOpen(false)} open={isCameraModalOpen} />
             <Signature onUsingSignature={(signSrc: string) => onValueChange('signature', signSrc)} closeModal={() => setIsSignatureModalOpen(false)} open={isSignatureModalOpen} />
         </Stack>

@@ -1,6 +1,6 @@
 import { Box, Button, Modal, Stack, Typography } from '@mui/material';
 import React, { useCallback, useRef, useState } from 'react';
-import { MODAL_STYLE } from "../constants";
+import { MODAL_STYLE, TEST_IDS } from "../constants";
 import ReactWebcam from "react-webcam";
 import COLORS from '../utils/colors';
 
@@ -42,6 +42,7 @@ const Webcam = (props: WebcamProps) => {
                             width={400}
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
+                            data-testid={TEST_IDS.webcamVideo}
                         />
                     )}
                     {image ? (
@@ -50,7 +51,7 @@ const Webcam = (props: WebcamProps) => {
                             <Button variant="contained" color="error" size="small" onClick={useScreenshot}>Use screenshot</Button>
                         </Stack>
                     ) : (
-                        <Button variant="contained" color="error" size="small" onClick={capture}>Capture</Button>
+                        <Button variant="contained" color="error" size="small" onClick={capture} data-testid={TEST_IDS.webcamCaptureButton}>Capture</Button>
                     )}
                     <Typography variant="body2" color={COLORS.secondary.dark}>*Click outside to close the modal.</Typography>
                 </Stack>

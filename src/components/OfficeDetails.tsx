@@ -1,7 +1,7 @@
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { FORM_LABELS, LOCALSTORAGE_KEYS, TAB_IDS } from '../constants';
+import { FORM_LABELS, LOCALSTORAGE_KEYS, TAB_IDS, TEST_IDS } from '../constants';
 import { getControls, onStep2FrozenChange, onStep2StateChange } from '../reducers/controls/controlsSlice';
 import { getUserDetails, onError, onLoad, onSuccess } from '../reducers/userDetails/userDetailsSlice';
 import { updateUser } from '../services';
@@ -123,17 +123,17 @@ const OfficeDetails = (props: OfficeDetailsProps) => {
 
     return (
         <Stack direction="column" alignItems="center" spacing={4} className={className}>
-            {errorMessage && <Typography variant="body1" color={COLORS.primary.dark}>{errorMessage}</Typography>}
+            {errorMessage && <Typography variant="body1" color={COLORS.primary.dark} data-testid={TEST_IDS.officeDetailsErrorMessage}>{errorMessage}</Typography>}
             <Stack direction="column" alignItems="flex-end" spacing={2}>
                 {Object.keys(officeDetails).map(key => (
                     <Stack key={key} direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} spacing={{xs: 0, sm: 0, md: 6, lg: 6}} alignItems="center">
                         <Typography variant="body1" sx={{whiteSpace: 'nowrap'}}>{FORM_LABELS[key]}</Typography>
                         {/* @ts-ignore: Type error */}
-                        <TextField error={!!fieldErrors[`${key}Error`]} helperText={fieldErrors[`${key}Error`]} variant="outlined" size="small" sx={{width: '300px'}} value={officeDetails[key]} onChange={(event: React.ChangeEvent<HTMLInputElement>) => onValueChange(key, event.target.value)} />
+                        <TextField error={!!fieldErrors[`${key}Error`]} helperText={fieldErrors[`${key}Error`]} variant="outlined" size="small" sx={{width: '300px'}} value={officeDetails[key]} onChange={(event: React.ChangeEvent<HTMLInputElement>) => onValueChange(key, event.target.value)} data-testid={TEST_IDS.officeDetailsTextField} />
                     </Stack>
                 ))}
             </Stack>
-            <Button variant="contained" color="error" size="large" onClick={onSubmit}>Next</Button>
+            <Button variant="contained" color="error" size="large" onClick={onSubmit} data-testid={TEST_IDS.officeDetailsNextButton}>Next</Button>
         </Stack>
     );
 };

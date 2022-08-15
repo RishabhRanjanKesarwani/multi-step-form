@@ -1,6 +1,6 @@
 import { Box, Button, Modal, Stack, Typography } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { MODAL_STYLE } from '../constants';
+import { MODAL_STYLE, TEST_IDS } from '../constants';
 import COLORS from '../utils/colors';
 import SignatureCanvas from 'react-signature-canvas';
 import styles from '../assets/styles/reactSignatureCanvas.module.css';
@@ -53,8 +53,8 @@ const Signature = (props: SignatureProps) => {
                         </Stack>
                     ) : (
                         <Stack direction="row" alignItems="center" spacing={2}>
-                            <Button variant="contained" color="error" size="small" onClick={clear}>Clear</Button>
-                            <Button variant="contained" color="error" size="small" onClick={done}>Done</Button>
+                            <Button variant="contained" color="error" size="small" onClick={clear} data-testid={TEST_IDS.signatureClearButton}>Clear</Button>
+                            <Button variant="contained" color="error" size="small" onClick={done} data-testid={TEST_IDS.signatureDoneButton}>Done</Button>
                         </Stack>
                     )}
                     <Typography variant="body2" color={COLORS.secondary.dark}>*Click outside to close the modal.</Typography>
