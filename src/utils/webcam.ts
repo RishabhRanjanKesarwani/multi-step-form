@@ -4,7 +4,6 @@ const detectWebcam = async () => {
         return false;
     }
     const devices = await mediaDevices.enumerateDevices();
-    // @ts-ignore: Typescript error
     return devices.some(device => device.kind === 'videoinput');
 };
 

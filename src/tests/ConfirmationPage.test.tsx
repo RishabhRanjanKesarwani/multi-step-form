@@ -10,7 +10,7 @@ import COLORS from '../utils/colors';
 describe('Confirmation page', () => {
     beforeAll(() => {
         global.URL.createObjectURL = jest.fn();
-        // @ts-ignore: Typescript error
+        // @ts-ignore: Typescript error | Function enumerateDevices returns a promise while in the use case here, this array mock will serve the purpose.
         global.navigator.mediaDevices.enumerateDevices = () => ([{kind: 'videoinput'}]);
     })
     it('should have 12 text fields and all disabled', async () => {

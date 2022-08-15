@@ -1,3 +1,4 @@
+import { Dictionary } from "@reduxjs/toolkit";
 import Tab from "./types/tab";
 import COLORS from "./utils/colors";
 
@@ -66,7 +67,7 @@ export const LOCALSTORAGE_KEYS = {
     controls: 'controls',
 };
 
-export const FORM_LABELS: { [key: string]: string } = {
+export const FORM_LABELS: Dictionary<string> = {
     name: 'Name',
     email: 'Email',
     mobileNumber: 'Mobile Number',

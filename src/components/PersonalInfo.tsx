@@ -5,21 +5,17 @@ import { Button, Stack, TextField, Typography } from '@mui/material';
 import COLORS from '../utils/colors';
 import PersonalInfoState from '../types/states/personalInfo';
 import { getControls, onStep1FrozenChange, onStep1StateChange } from '../reducers/controls/controlsSlice';
-import { isEmailValid, isMobileNumberValid } from '../utils/validations';
 import { addUser, updateUser } from '../services';
+import { getFieldErrors } from "../utils/errors";
 import { getUserDetails, onError, onLoad, onSuccess } from '../reducers/userDetails/userDetailsSlice';
+import { Dictionary } from '@reduxjs/toolkit';
 
 interface PersonalInfoProps {
     onNext: (stepComplete: TAB_IDS) => void;
     className: string;
 }
 
-interface FieldErrorsAndControl {
-    fieldErrors: { [key: string]: string };
-    isAtLeastOneError: boolean;
-}
-
-const initialState: PersonalInfoState = {
+export const initialState: PersonalInfoState = {
     name: '',
     email: '',
     mobileNumber: '',
@@ -28,62 +24,22 @@ const initialState: PersonalInfoState = {
     addressLine3: '',
 };
 
-const initialErrorState: { [key: string]: string } = {
-    nameError: '',
-    emailError: '',
-    mobileNumberError: '',
-    addressLine1Error: '',
-    addressLine2Error: '',
-    addressLine3Error: '',
-};
-
-
-const getFieldError = (key: string, value: string): string => {
-    switch (key) {
-        case 'name':
-            return value ? '' : 'Name is a required field. It cannot be blank';
-        case 'email':
-            return isEmailValid(value) ? '' : 'Email is a required field and must be valid';
-        case 'mobileNumber':
-            return isMobileNumberValid(value) ? '' : 'Mobile Number is a required field and must contain numbers only';
-        case 'addressLine1':
-            return value ? '' : 'Address Line 1 is a required field. It cannot be blank';
-        case 'addressLine2':
-        case 'addressLine3':
-        default:
-            return '';
-    }
-}
-
-const getFieldErrors = (personalInfo: PersonalInfoState): FieldErrorsAndControl => {
-    const fieldErrors = initialErrorState;
-    let isAtLeastOneError = false;
-    Object.keys(personalInfo).forEach(key => {
-        // @ts-ignore: Type error
-        const errorMessage = getFieldError(key, personalInfo[key]);
-        // @ts-ignore: Type error
-        fieldErrors[`${key}Error`] = errorMessage;
-        isAtLeastOneError = isAtLeastOneError || !!errorMessage;
-    });
-    return { fieldErrors, isAtLeastOneError };
-}
-
 const PersonalInfo = (props: PersonalInfoProps) => {
     const controls = useAppSelector(getControls);
     const isPersonalInfoFrozen = controls.isStep1Frozen;
     const { data } = useAppSelector(getUserDetails);
     const dispatch = useAppDispatch();
     const [errorMessage, setErrorMessage] = useState<string | null>();
-    // @ts-ignore: Type error
+    // @ts-ignore: Typescript error | Becasue of type, ts does not allow empty object assignment. Empty object assignment is required because otherwise the useEffect's shallow comparison does not let the component re-render on Redux state update.
     const [personalInfo, setPersonalInfo] = useState<PersonalInfoState>({});
-    const [fieldErrors, setFieldErrors] = useState<{[key: string]: string}>({});
+    const [fieldErrors, setFieldErrors] = useState<Dictionary<string>>({});
 
     const { onNext, className } = props;
 
     useEffect(() => {
         const savedPersonalInfo: PersonalInfoState = initialState;
         Object.keys(savedPersonalInfo).forEach(key => {
-            // @ts-ignore: Type error
+            // @ts-ignore: Typescript error | Although the type is assigned to savedPersonalInfo object, the return type of Object.keys() function results in type mismatch.
             savedPersonalInfo[key] = data[key];
         });
         setPersonalInfo(savedPersonalInfo);
@@ -133,7 +89,7 @@ const PersonalInfo = (props: PersonalInfoProps) => {
                 {Object.keys(personalInfo).map(key => (
                     <Stack key={key} direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} spacing={{xs: 0, sm: 0, md: 6, lg: 6}} alignItems="center">
                         <Typography variant="body1" sx={{whiteSpace: 'nowrap'}}>{FORM_LABELS[key]}</Typography>
-                        {/* @ts-ignore: Type error */}
+                        {/* @ts-ignore: Typescript error |  | Although the type is assigned to personalInfo object, the return type of Object.keys() function results in type mismatch. */}
                         <TextField error={!!fieldErrors[`${key}Error`]} helperText={fieldErrors[`${key}Error`]} variant="outlined" size="small" sx={{width: '300px'}} value={personalInfo[key]} onChange={(event: React.ChangeEvent<HTMLInputElement>) => onValueChange(key, event.target.value)} data-testid={TEST_IDS.personalInfoTextField} />
                     </Stack>
                 ))}

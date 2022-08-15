@@ -1,4 +1,5 @@
 import { Button, Stack, TextField, Typography } from '@mui/material';
+import { Dictionary } from '@reduxjs/toolkit';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { FORM_LABELS, LOCALSTORAGE_KEYS, TAB_IDS, TEST_IDS } from '../constants';
@@ -7,19 +8,14 @@ import { getUserDetails, onError, onLoad, onSuccess } from '../reducers/userDeta
 import { updateUser } from '../services';
 import OfficeDetailsState from '../types/states/officeDetails';
 import COLORS from '../utils/colors';
-import { isMobileNumberValid } from '../utils/validations';
+import { getFieldErrors } from "../utils/errors";
 
 interface OfficeDetailsProps {
     onNext: (stepComplete: TAB_IDS) => void;
     className: string;
 }
 
-interface FieldErrorsAndControl {
-    fieldErrors: { [key: string]: string };
-    isAtLeastOneError: boolean;
-}
-
-const initialState: OfficeDetailsState = {
+export const initialState: OfficeDetailsState = {
     workBuildingName: '',
     workCity: '',
     workLandlineNumber: '',
@@ -28,63 +24,22 @@ const initialState: OfficeDetailsState = {
     workPOBoxNumber: '',
 };
 
-const initialErrorState: { [key: string]: string } = {
-    workBuildingNameError: '',
-    workCityError: '',
-    workLandlineNumberError: '',
-    workAddressLine1Error: '',
-    workAddressLine2Error: '',
-    workPOBoxNumberError: '',
-};
-
-
-const getFieldError = (key: string, value: string): string => {
-    switch (key) {
-        case 'workBuildingName':
-            return value ? '' : 'Building Name is a required field. It cannot be blank';
-        case 'workCity':
-            return value ? '' : 'City is a required field. It cannot be blank';
-        case 'workLandlineNumber':
-            return isMobileNumberValid(value) ? '' : 'Landline Number is a required field and must contain numbers only';
-        case 'workAddressLine1':
-            return value ? '' : 'Address Line 1 is a required field. It cannot be blank';
-        case 'workPOBoxNumber':
-            return isMobileNumberValid(value) ? '' : 'PO Box Number is a required field and must contain numbers only';
-        case 'workAddressLine2':
-        default:
-            return '';
-    }
-}
-
-const getFieldErrors = (officeDetails: OfficeDetailsState): FieldErrorsAndControl => {
-    const fieldErrors = initialErrorState;
-    let isAtLeastOneError = false;
-    Object.keys(officeDetails).forEach(key => {
-        // @ts-ignore: Type error
-        const errorMessage = getFieldError(key, officeDetails[key]);
-        // @ts-ignore: Type error
-        fieldErrors[`${key}Error`] = errorMessage;
-        isAtLeastOneError = isAtLeastOneError || !!errorMessage;
-    });
-    return { fieldErrors, isAtLeastOneError };
-}
-
 const OfficeDetails = (props: OfficeDetailsProps) => {
     const controls = useAppSelector(getControls);
     const isOfficeDetailsFrozen = controls.isStep2Frozen;
     const { data } = useAppSelector(getUserDetails);
     const dispatch = useAppDispatch();
     const [errorMessage, setErrorMessage] = useState<string | null>();
-    // @ts-ignore: Type error
+    // @ts-ignore: Typescript error | Becasue of type, ts does not allow empty object assignment. Empty object assignment is required because otherwise the useEffect's shallow comparison does not let the component re-render on Redux state update.
     const [officeDetails, setOfficeDetails] = useState<OfficeDetailsState>({});
-    const [fieldErrors, setFieldErrors] = useState<{[key: string]: string}>({});
+    const [fieldErrors, setFieldErrors] = useState<Dictionary<string>>({});
 
     const { onNext, className } = props;
 
     useEffect(() => {
         const savedOfficeDetails: OfficeDetailsState = initialState;
         Object.keys(savedOfficeDetails).forEach(key => {
-            // @ts-ignore: Type error
+            // @ts-ignore: Typescript error | Although the type is assigned to savedOfficeDetails object, the return type of Object.keys() function results in type mismatch.
             savedOfficeDetails[key] = data[key];
         });
         setOfficeDetails(savedOfficeDetails);
@@ -128,7 +83,7 @@ const OfficeDetails = (props: OfficeDetailsProps) => {
                 {Object.keys(officeDetails).map(key => (
                     <Stack key={key} direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} spacing={{xs: 0, sm: 0, md: 6, lg: 6}} alignItems="center">
                         <Typography variant="body1" sx={{whiteSpace: 'nowrap'}}>{FORM_LABELS[key]}</Typography>
-                        {/* @ts-ignore: Type error */}
+                        {/* @ts-ignore: Typescript error |  | Although the type is assigned to officeDetails object, the return type of Object.keys() function results in type mismatch. */}
                         <TextField error={!!fieldErrors[`${key}Error`]} helperText={fieldErrors[`${key}Error`]} variant="outlined" size="small" sx={{width: '300px'}} value={officeDetails[key]} onChange={(event: React.ChangeEvent<HTMLInputElement>) => onValueChange(key, event.target.value)} data-testid={TEST_IDS.officeDetailsTextField} />
                     </Stack>
                 ))}

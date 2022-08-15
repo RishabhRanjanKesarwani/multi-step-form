@@ -15,58 +15,21 @@ import signaturePlaceHolder from "../assets/images/signature-solid.svg";
 import Webcam from './Webcam';
 import Signature from './Signature';
 import detectWebcam from '../utils/webcam';
+import { getFieldErrors } from "../utils/errors";
+import { initialState as PersonalInfoInitialState } from "./PersonalInfo";
+import { initialState as OfficeDetailsInitialState } from "./OfficeDetails";
+import PersonalInfoState from '../types/states/personalInfo';
+import OfficeDetailsState from '../types/states/officeDetails';
+import { Dictionary } from '@reduxjs/toolkit';
 
 interface ConfirmationPageProps {
     onNext: (stepComplete: TAB_IDS) => void;
     className: string;
 }
 
-interface FieldErrorsAndControl {
-    fieldErrors: { [key: string]: string };
-    isAtLeastOneError: boolean;
-}
-
 const initialState: ConfirmationPageState = {
     image: '',
     signature: '',
-};
-
-const initialErrorState: { [key: string]: string } = {
-    imageError: '',
-    signatureError: '',
-};
-
-
-const getFieldError = (key: string, value: string): string => {
-    switch (key) {
-        case 'image':
-            return value ? '' : 'Image is a required field';
-        case 'signature':
-            return value ? '' : 'Signature is a required field';
-        default:
-            return '';
-    }
-}
-
-const getFieldErrors = (confirmationPage: ConfirmationPageState): FieldErrorsAndControl => {
-    const fieldErrors = initialErrorState;
-    let isAtLeastOneError = false;
-    Object.keys(confirmationPage).forEach(key => {
-        // @ts-ignore: Type error
-        const errorMessage = getFieldError(key, confirmationPage[key]);
-        // @ts-ignore: Type error
-        fieldErrors[`${key}Error`] = errorMessage;
-        isAtLeastOneError = isAtLeastOneError || !!errorMessage;
-    });
-    return { fieldErrors, isAtLeastOneError };
-}
-
-const getKeys = (id: TAB_IDS.step1 | TAB_IDS.step2): string[] => {
-    if (id === TAB_IDS.step1) {
-        return ['name', 'email', 'mobileNumber', 'addressLine1', 'addressLine2', 'addressLine3'];
-    } else {
-        return ['workBuildingName', 'workCity', 'workLandlineNumber', 'workAddressLine1', 'workAddressLine2', 'workPOBoxNumber'];
-    }
 };
 
 const ConfirmationPage = (props: ConfirmationPageProps) => {
@@ -75,9 +38,9 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
     const { data } = useAppSelector(getUserDetails);
     const dispatch = useAppDispatch();
     const [errorMessage, setErrorMessage] = useState<string | null>();
-    // @ts-ignore: Type error
+    // @ts-ignore: Typescript error | Becasue of type, ts does not allow empty object assignment. Empty object assignment is required because otherwise the useEffect's shallow comparison does not let the component re-render on Redux state update.
     const [confirmationPage, setConfirmationPage] = useState<ConfirmationPageState>({});
-    const [fieldErrors, setFieldErrors] = useState<{[key: string]: string}>({});
+    const [fieldErrors, setFieldErrors] = useState<Dictionary<string>>({});
     const [isCameraModalOpen, setIsCameraModalOpen] = useState<boolean>(false);
     const [isSignatureModalOpen, setIsSignatureModalOpen] = useState<boolean>(false);
     const [isWebcamAvailable, setIsWebcamAvailable] = useState<boolean>(false);
@@ -87,7 +50,7 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
     useEffect(() => {
         const savedConfirmationPage: ConfirmationPageState = initialState;
         Object.keys(savedConfirmationPage).forEach(key => {
-            // @ts-ignore: Type error
+            // @ts-ignore: Typescript error | Although the type is assigned to savedConfirmationPage object, the return type of Object.keys() function results in type mismatch.
             savedConfirmationPage[key] = data[key];
         });
         setConfirmationPage(savedConfirmationPage);
@@ -130,22 +93,21 @@ const ConfirmationPage = (props: ConfirmationPageProps) => {
         }
     };
 
+    const FormTextFields = ({fields}: {fields: PersonalInfoState | OfficeDetailsState}) => (
+        <Stack direction="column" spacing={2}>
+            {Object.keys(fields).map(key => (
+                // @ts-ignore: Typescript error |  | Although the type is assigned to fields object, the return type of Object.keys() function results in type mismatch.
+                <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} data-testid={TEST_IDS.confirmationPageTextField} />
+            ))}
+        </Stack>
+    );
+
     return (
         <Stack direction="column" alignItems="center" spacing={4} sx={{paddingTop: '5px'}} className={className}>
             {errorMessage && <Typography variant="body1" color={COLORS.primary.dark}>{errorMessage}</Typography>}
             <Stack direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row' }} width="100%" alignItems="center" justifyContent="space-evenly" spacing={{ xs: 6, sm: 6, md: 0, lg: 0 }}>
-                <Stack direction="column" spacing={2}>
-                    {getKeys(TAB_IDS.step1).map(key => (
-                        /* @ts-ignore: Type error */
-                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} data-testid={TEST_IDS.confirmationPageTextField} />
-                    ))}
-                </Stack>
-                <Stack direction="column" spacing={2}>
-                    {getKeys(TAB_IDS.step2).map(key => (
-                        /* @ts-ignore: Type error */
-                        <TextField key={key} variant="outlined" size="small" sx={{width: '300px'}} value={data[key] ? data[key] : ' '} disabled label={className.includes('show') ? FORM_LABELS[key] : ''} data-testid={TEST_IDS.confirmationPageTextField} />
-                    ))}
-                </Stack>
+                <FormTextFields fields={PersonalInfoInitialState} />
+                <FormTextFields fields={OfficeDetailsInitialState} />
                 <Stack direction="column" spacing={4}>
                     <Box sx={{ border: `1px dashed ${COLORS.black}`, borderRadius: '10px', padding: '0 5px' }}>
                         <Stack direction="column" alignItems="center">
