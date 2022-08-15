@@ -21,8 +21,10 @@ TABS.forEach((tab, index) => {
 const getPreviousTabID = (id: string): TAB_IDS => {
     switch (id) {
         case TAB_IDS.step3:
+        case `hyphen2`:
             return TAB_IDS.step2
         case TAB_IDS.step2:
+        case 'hyphen1':
         default:
             return TAB_IDS.step1;
     }
@@ -66,7 +68,7 @@ const SignupTabs = (props: SignupTabsProps) => {
                         </Box>
                     </Box>
                 ) : (
-                    <Divider key={tab.id} sx={{width: '200px', height: '1px', margin: '10px 100px', background: isStatusComplete(tab.id) ? COLORS.primary.dark : COLORS.primary.light}} data-testid={TEST_IDS.signupDivider} />
+                    <Divider key={tab.id} sx={{width: '200px', height: '1px', margin: '10px 100px', background: isStatusComplete(getPreviousTabID(tab.id)) ? COLORS.primary.dark : COLORS.primary.light}} data-testid={TEST_IDS.signupDivider} />
                 )
             ))}
         </Stack>
