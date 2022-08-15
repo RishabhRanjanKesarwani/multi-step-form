@@ -26,7 +26,7 @@ Install all the dependencies before running the application.
 
 You're all set to use the application in the development mode!\
 If not opened automatically, go to [localhost:3000](http://localhost:3000/) to interact with the application.\
-The page will reload if you make edits.
+The page will automatically reload if you make edits.
 
 ### 5. Read [HOW-TO-USE](https://github.com/RishabhRanjanKesarwani/multi-step-form/blob/master/HOW-TO-USE.md) (optional)
 
