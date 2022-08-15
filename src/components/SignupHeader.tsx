@@ -18,7 +18,7 @@ const SignupHeader = (props: SignupHeaderProps) => {
             <Box sx={{padding: '12px', backgroundColor: COLORS.primary.dark, width: 300, borderBottomLeftRadius: 16, height: 'fit-content'}}>
                 <Stack direction="row" justifyContent="space-between">
                     <Typography variant="body2" color={COLORS.white} sx={{textTransform: 'uppercase'}}>{userName}</Typography>
-                    <Link href="https://github.com/RishabhRanjanKesarwani/multi-step-form/blob/master/README.md" target="_blank">
+                    <Link href="https://github.com/RishabhRanjanKesarwani/multi-step-form/blob/master/HOW-TO-USE.md" target="_blank" title="Read how to use the application">
                         <HelpOutlineIcon sx={{color: COLORS.white}} fontSize="small" />
                     </Link>
                 </Stack>
