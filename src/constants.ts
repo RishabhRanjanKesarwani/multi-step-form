@@ -134,4 +134,6 @@ export const TEST_IDS = {
     signatureDoneButton: 'signature-done-button',
     signatureClearButton: 'signature-clear-button',
     successOkButton: 'success-ok-button',
+    pageNotFoundHomeButton: 'pageNotFound-home-button',
+    pageNotFoundSignupButton: 'pageNotFound-signup-button',
 }

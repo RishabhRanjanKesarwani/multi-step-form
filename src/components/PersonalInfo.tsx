@@ -111,7 +111,6 @@ const PersonalInfo = (props: PersonalInfoProps) => {
             } else {
                 const requestBody = { ...FORM_INITIAL_STATE, ...personalInfo };
                 response = await addUser(requestBody);
-                console.log(response);
             }
             if (response.errorCode && response.errorCode !== 0) {
                 setErrorMessage(response.errorMessage);
